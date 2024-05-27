@@ -1,0 +1,2 @@
+./rknn-toolkit2_pkgs/rknn_toolkit2-1.6.0+81f21f4d-cp311-cp311-linux_x86_64.whl
+ultralytics==8.2.22
