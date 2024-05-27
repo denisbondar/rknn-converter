@@ -141,7 +141,7 @@ For questions and discussions, it is best to use [discussions board](../../discu
 If you're not sure, it's always best to start with discussions, as your issue may have already been or is currently being discussed.
 
 ### Bugfixes
-If you find a clear bug that can be fixed, [see if there is an issue](issues) with a similar bug before [creating a new one](issues/new).
+If you find a clear bug that can be fixed, [see if there is an issue](../../issues) with a similar bug before [creating a new one](../../issues/new).
 
 ## References
 * <https://docs.ultralytics.com/>
