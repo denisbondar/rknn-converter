@@ -25,7 +25,7 @@ def yolo_to_onnx(
     """
     logging.info(f"Converting {yolo_model_file} to ONNX model")
     yolo = YOLO(yolo_model_file)
-    yolo.export(format="onnx", imgsz=[img_size[0], img_size[1]], opset=12)
+    yolo.export(format="rknn", imgsz=[img_size[0], img_size[1]])
     base_name, _ = os.path.splitext(yolo_model_file)
     onnx_file_name = f"{base_name}.onnx"
     logging.info(f"ONNX model saved to {onnx_file_name}")
