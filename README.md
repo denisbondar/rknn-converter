@@ -6,12 +6,15 @@
   * [About](#about)
   * [Installation](#installation)
     * [System dependencies](#system-dependencies)
-    * [Cloning the repository](#cloning-the-repository)
-    * [Dependency installation](#dependency-installation)
+    * [Cloning the repository and install](#cloning-the-repository-and-install)
   * [Conversion](#conversion)
     * [Preparing](#preparing)
       * [Creating dataset](#creating-dataset)
     * [Executing](#executing)
+  * [Other versions of Python](#other-versions-of-python)
+    * [Python 3.10](#python-310)
+    * [Python 3.6 - 3.9](#python-36---39)
+    * [Python <3.6 or >3.11](#python-36-or-311)
   * [Support](#support)
     * [Discussions and featurerequests](#discussions-and-featurerequests)
     * [Bugfixes](#bugfixes)
@@ -19,42 +22,33 @@
 <!-- TOC -->
 
 ## About
-This tool provides to convert PyTorch (YOLO) models or ONNX models to RKNN format.
+This tool provides to convert YOLO models (or ONNX models) to RKNN format.
 
-This tool is based on [rknn-toolkit2](https://github.com/airockchip/rknn-toolkit2) version [1.6.0](https://github.com/airockchip/rknn-toolkit2/tree/v1.6.0), as the latest version 2.0.0-beta0 had conversion errors at the time of release.
+> [!IMPORTANT]  
+> This tool is based on [rknn-toolkit2](https://github.com/airockchip/rknn-toolkit2) version [1.6.0](https://github.com/airockchip/rknn-toolkit2/tree/v1.6.0).
+> You should be using **rknn-toolkit-lite2** on an SBC of the same version.
 
 ## Installation
-Since the package contains the modified rknn-toolkit2 package for Python 3.10 and 3.11 only, installation is only possible for these versions of Python.
-By default, the `requirements.txt` file contains dependencies for version 3.11. If you need to use Python 3.10, edit the file accordingly before installing dependencies.
-
-If you need packages for other versions of Python, [first make sure they exist](https://github.com/airockchip/rknn-toolkit2/tree/v1.6.0/rknn-toolkit2/packages), then edit the `PYTHON_VERSIONS` variable of the `rknn-toolkit2_pkgs/repack-whl.sh` file and run it.
-
 ### System dependencies
 System dependencies must be installed for a successful installation.
 ```shell
 sudo apt install -y libgl1-mesa-dev
 ```
 
-### Cloning the repository
+### Cloning the repository and install
+The following steps are for **Python 3.11**. If you have a different version, [refer to this section first](#other-versions-of-python).
 ```shell
 cd ~
 git clone https://github.com/denisbondar/rknn-converter.git
 cd rknn-converter
-```
-
-### Dependency installation
-It is recommended to install dependent packages in a virtual environment so that there are no conflicts with global packages.
-But you can also install dependencies globally at your own risk.
-```shell
 python3.11 -m venv venv
 source venv/bin/activate
-pip install -U -r requirements.txt
+pip install -r requirements.txt
 ```
-If you are using a different version of Python, be sure to edit `requirements.txt` before running the last command.
 
 ## Conversion
 ### Preparing
-You will need a PyTorch (YOLO) format model — usually the `best.pt` file.
+You will need a YOLO format model — usually the `best.pt` file.
 You will also need a dataset of 20 photos matching your model for the quantization process.
 
 You don't have to place all these files inside the current rknn-converter directory, you can place them wherever you like.
@@ -96,7 +90,6 @@ In general, the file tree will be something like this:
 │   │   ├── . . .
 │   │   └── 20.jpg
 │   └── images.txt
-├── pt2rknn
 ├── pt2rknn.py
 ├── README.md
 ├── requirements.txt
@@ -132,6 +125,29 @@ options:
   -p PLATFORM, --platform PLATFORM
                         RKNN target platform (default: rk3588)
 ```
+
+## Other versions of Python
+### Python 3.10
+If you are using Python version 3.10, before installing, edit the requirements.txt file by replacing the first line with
+```text
+./rknn-toolkit2_pkgs/rknn_toolkit2-1.6.0+81f21f4d-cp311-cp311-linux_x86_64.whl
+```
+by replacing the first line
+```text
+./rknn-toolkit2_pkgs/rknn_toolkit2-1.6.0+81f21f4d-cp310-cp310-linux_x86_64.whl
+```
+And only after that, run the `pip install` command.
+
+### Python 3.6 - 3.9
+If your version of Python is between 3.6 and 3.9, you will first need to repackage the original **rknn-toolkit2** package.
+To do this, add the desired version, such as `"cp39"`, to the `PYTHON_VERSIONS` list of the `rknn-toolkit2_pkgs/repack-whl.sh` file.
+Then run this file, and it will create a package for your version of Python.
+Now modify `requirements.txt` as [above](#python-310) with the name of your package.
+
+You can now run the `pip install ...`command as shown in the [installation section](#cloning-the-repository-and-install).
+
+### Python <3.6 or >3.11
+rknn-toolkit2 v1.6.0 only supports Python in the 3.6 to 3.11 version range.
 
 ## Support
 Given the instability and persistent problems of the original rknn-toolkit package, there are likely to be future problems that simply did not exist when the converter was written.
